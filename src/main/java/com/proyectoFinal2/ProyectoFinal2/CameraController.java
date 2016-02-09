@@ -194,19 +194,19 @@ public class CameraController {
 						vehicle.setCounted(true);
 						if (type.equals("Bike")) {
 							this.motos++;
-							LOGGER.info("Camara nÂ°: " + this.cameraId + " tipo: " + type + ": " + this.motos
+							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.motos
 									+ " " + vehicle + " TamaÃ±o video: " + (frameHeight * frameWidth));
 						} else if (type.equals("Car")) {
 							this.autos++; // modificar!!
-							LOGGER.info("Camara nÂ°: " + this.cameraId + " tipo: " + type + ": " + this.autos
+							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.autos
 									+ " " + vehicle + " TamaÃ±o video: " + (frameHeight * frameWidth));
 						} else {
 							this.omnibus++; // modificar!!
-							LOGGER.info("Camara nÂ°: " + this.cameraId + " tipo: " + type + ": " + this.omnibus
+							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.omnibus
 									+ " " + vehicle + " TamaÃ±o video: " + (frameHeight * frameWidth));
 
 						}
-						LOGGER.info("Camara nÂ°: " + this.cameraId + " Total: " + (this.autos + this.motos));
+						LOGGER.info("Camara n°: " + this.cameraId + " Total: " + (this.autos + this.motos));
 						LOGGER.info(DetectedObjectController.saveDetectedObject(type, vehicle.getDetectionDate(), cameraId));
 						this.vehicleSet.remove(vehicle);
 					}
