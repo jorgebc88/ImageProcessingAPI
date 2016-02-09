@@ -1,5 +1,6 @@
 package com.proyectoFinal2.ProyectoFinal2;
 
+import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
@@ -13,10 +14,13 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.WindowConstants;
 
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
+
+import dataBaseConnection.Camera;
 
 /**
  * The controller associated with the only view of our application. The
@@ -41,14 +45,16 @@ public class ObjRecognitionController {
 	 * 
 	 * @throws Exception
 	 */
-	public void startCamera(long cameraId, String ip) throws Exception {
+	public void startCamera(Camera camera) throws Exception {
+		long cameraId = camera.getId();
+		String ip = camera.getIp();
 		if (!camerasMap.containsKey(cameraId)) {
 			VideoCapture capture = new VideoCapture();
 			capture.open(ip);
 			// is the video stream available?
 			if (capture.isOpened()) {
 				// grab a frame every 33 ms (30 frames/sec)
-				JFrame ventana = new JFrame();
+				JFrame ventana = new JFrame(camera.getLocation());
 				Mat mat = new Mat();
 				capture.read(mat);
 				ventana.setSize(mat.width(), mat.height());
@@ -57,6 +63,7 @@ public class ObjRecognitionController {
 				ventana.setLocationRelativeTo(null);
 				ventana.setVisible(true);
 				ventana.setResizable(false);
+				ventana.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 				CameraController cameraController = new CameraController(capture, cameraId,
 						this.isWideScreen(mat));
 				camerasMap.put(cameraId, cameraController);

@@ -73,7 +73,7 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Centro de masa: " + this.massCenterLocation + " TamaÃ±o: " + this.vehicleSize + " IsGoingUp: " + this.isGoingUp + " IsCounted: " + this.counted + " Fecha: " + this.detectionDate;
+        return "Centro de masa: " + this.massCenterLocation + " Tamaño: " + this.vehicleSize + " IsGoingUp: " + this.isGoingUp + " IsCounted: " + this.counted + " Fecha: " + this.detectionDate;
     }
 
     public Date getDetectionDate() {
