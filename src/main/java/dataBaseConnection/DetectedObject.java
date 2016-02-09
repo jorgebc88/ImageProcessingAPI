@@ -18,12 +18,12 @@ public class DetectedObject implements Serializable {
 
     private Date date;
 
-    private int camera_id;
+    private long camera_id;
 
     public DetectedObject() {
     }
 
-    public DetectedObject(String direction, String objectType, Date date, int camera_id) {
+    public DetectedObject(String direction, String objectType, Date date, long camera_id) {
         super();
         this.direction = direction;
         this.ObjectType = objectType;
@@ -63,7 +63,7 @@ public class DetectedObject implements Serializable {
         return date;
     }
 
-    public int getCamera_id() {
+    public long getCamera_id() {
         return camera_id;
     }
 

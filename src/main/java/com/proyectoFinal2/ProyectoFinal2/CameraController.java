@@ -1,12 +1,14 @@
 package com.proyectoFinal2.ProyectoFinal2;
 
 import java.awt.Image;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
@@ -14,14 +16,16 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.opencv.imgproc.Moments;
 import org.opencv.video.BackgroundSubtractorKNN;
 import org.opencv.video.Video;
 import org.opencv.videoio.VideoCapture;
 
-import dataBaseConnection.ObjectRandom;
 
-public class ObjRecognitionLogic {
+import dataBaseConnection.DetectedObjectController;
+
+public class CameraController {
+	
+	static final Logger LOGGER = Logger.getLogger(CameraController.class);
 
 	private Mat prevFrame = null;
 
@@ -33,13 +37,13 @@ public class ObjRecognitionLogic {
 
 	public VideoCapture capture = new VideoCapture();
 
-	private int cameraId;
+	private long cameraId;
 	
 	private boolean isWideScreen;
 
 	BackgroundSubtractorKNN backgroundSubtractor = Video.createBackgroundSubtractorKNN();
 
-	public ObjRecognitionLogic(VideoCapture capture, int cameraId, boolean isWideScreen) {
+	public CameraController(VideoCapture capture, long cameraId, boolean isWideScreen) {
 		super();
 		this.capture = capture;
 		this.cameraId = cameraId;
@@ -93,12 +97,11 @@ public class ObjRecognitionLogic {
 					this.prevFrame = grayImage;
 					// find the vehicles contours and show them
 					frame = this.findAndDetectVehicles(fgmask, frame);
-
 					return frame;
 				}
 			} catch (Exception e) {
 				// log the (full) error
-				System.err.print("ERROR");
+				LOGGER.error("Error trying to process the video.");
 				e.printStackTrace();
 			}
 		}
@@ -124,7 +127,7 @@ public class ObjRecognitionLogic {
 
 		// find contours
 		Imgproc.findContours(maskedImage, contours, hierarchy, Imgproc.RETR_CCOMP, Imgproc.CHAIN_APPROX_SIMPLE);
-		Mat contour;
+		MatOfPoint contour;
 		Rect rect;
 		String type;
 		// if any contour exist...
@@ -134,11 +137,11 @@ public class ObjRecognitionLogic {
 			// for each contour, display it in blue
 			for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
 				contour = contours.get(idx);
-				rect = Imgproc.boundingRect(contours.get(idx));
-				if (rect.area() > 2000) {
-					if (rect.area() < 15000) {
+				rect = Imgproc.boundingRect(contour);
+				if (DetectedObjectController.isAnObject(rect.area(), frame.size().area())) {
+					if (DetectedObjectController.isABike(rect.area(), frame.size().area())) {
 						type = "Bike";
-					} else if (rect.area() < 55000) {
+					} else if (DetectedObjectController.isACar(rect.area(), frame.size().area())) {
 						type = "Car";
 					} else {
 						type = "Bus";
@@ -191,20 +194,20 @@ public class ObjRecognitionLogic {
 						vehicle.setCounted(true);
 						if (type.equals("Bike")) {
 							this.motos++;
-							System.out.println("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.motos
+							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.motos
 									+ " " + vehicle + " Tamaño video: " + (frameHeight * frameWidth));
 						} else if (type.equals("Car")) {
 							this.autos++; // modificar!!
-							System.out.println("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.autos
+							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.autos
 									+ " " + vehicle + " Tamaño video: " + (frameHeight * frameWidth));
 						} else {
 							this.omnibus++; // modificar!!
-							System.out.println("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.omnibus
+							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.omnibus
 									+ " " + vehicle + " Tamaño video: " + (frameHeight * frameWidth));
 
 						}
-						System.out.println("Camara n°: " + this.cameraId + " Total: " + (this.autos + this.motos));
-						ObjectRandom.httpPost(type, vehicle.getDetectionDate(), cameraId);
+						LOGGER.info("Camara n°: " + this.cameraId + " Total: " + (this.autos + this.motos));
+						LOGGER.info(DetectedObjectController.saveDetectedObject(type, vehicle.getDetectionDate(), cameraId));
 						this.vehicleSet.remove(vehicle);
 					}
 				}

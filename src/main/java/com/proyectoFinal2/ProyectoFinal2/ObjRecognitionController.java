@@ -3,6 +3,7 @@ package com.proyectoFinal2.ProyectoFinal2;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -16,7 +17,6 @@ import javax.swing.JLabel;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
-import org.opencv.videoio.Videoio;
 
 /**
  * The controller associated with the only view of our application. The
@@ -35,13 +35,13 @@ public class ObjRecognitionController {
 	// the OpenCV object that performs the video capture
 	FFmpegFrameGrabber grabber;
 
-	private Map<Integer, ObjRecognitionLogic> camerasMap = new HashMap<>();
+	private Map<Long, CameraController> camerasMap = new HashMap<>();
 
 	/**
 	 * 
 	 * @throws Exception
 	 */
-	public void startCamera(int cameraId, String ip) throws Exception {
+	public void startCamera(long cameraId, String ip) throws Exception {
 		if (!camerasMap.containsKey(cameraId)) {
 			VideoCapture capture = new VideoCapture();
 			capture.open(ip);
@@ -56,15 +56,16 @@ public class ObjRecognitionController {
 						cameraId + " - " + mat.width() + " - " + mat.height() + " - " + this.isWideScreen(mat));
 				ventana.setLocationRelativeTo(null);
 				ventana.setVisible(true);
-				ObjRecognitionLogic objRecognitionLogic = new ObjRecognitionLogic(capture, cameraId,
+				ventana.setResizable(false);
+				CameraController cameraController = new CameraController(capture, cameraId,
 						this.isWideScreen(mat));
-				camerasMap.put(cameraId, objRecognitionLogic);
+				camerasMap.put(cameraId, cameraController);
 				JLabel jLabel = new JLabel();
 				Thread frameGrabber = new Thread() {
 					@Override
 					public void run() {
 						try {
-							jLabel.setIcon(new ImageIcon(createAwtImage(objRecognitionLogic.grabFrame())));
+							jLabel.setIcon(new ImageIcon(createAwtImage(cameraController.grabFrame())));
 							ventana.getContentPane().add(jLabel);
 							jLabel.updateUI();
 						} catch (Exception e) {
