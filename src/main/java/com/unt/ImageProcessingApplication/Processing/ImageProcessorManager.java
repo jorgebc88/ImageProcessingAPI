@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
-import com.unt.ImageProcessingService.entities.Camera;
+import com.unt.ImageProcessingApplication.entities.Camera;
 
 /**
  * The controller associated with the only view of our application. The

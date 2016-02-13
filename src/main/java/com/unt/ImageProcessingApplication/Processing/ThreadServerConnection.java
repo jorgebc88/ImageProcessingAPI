@@ -1,11 +1,11 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.net.Socket;
 import java.net.SocketException;
 
 import org.apache.log4j.Logger;
 
-import com.unt.ImageProcessingService.streaming.VideoStreaming;
+import com.unt.ImageProcessingApplication.streaming.VideoStreaming;
 
 public class ThreadServerConnection extends Thread {
 

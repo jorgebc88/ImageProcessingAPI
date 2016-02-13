@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.entities;
+package com.unt.ImageProcessingApplication.entities;
 
 import java.io.Serializable;
 import java.util.Date;

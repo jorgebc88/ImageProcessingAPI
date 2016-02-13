@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.streaming;
+package com.unt.ImageProcessingApplication.streaming;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;

@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.util.Date;
 import java.util.Set;
@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 
 import org.apache.log4j.Logger;
 
-import com.unt.ImageProcessingService.entities.Vehicle;
+import com.unt.ImageProcessingApplication.entities.Vehicle;
 
 /**
  * 

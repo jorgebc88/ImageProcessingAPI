@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.entities;
+package com.unt.ImageProcessingApplication.entities;
 
 import java.util.Date;
 
@@ -69,7 +69,7 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return "Centro de masa: " + this.massCenterLocation + " Tamaño: " + this.vehicleSize + " IsGoingUp: "
+		return "Centro de masa: " + this.massCenterLocation + " Tamaï¿½o: " + this.vehicleSize + " IsGoingUp: "
 				+ this.isGoingUp + " IsCounted: " + this.counted + " Fecha: " + this.detectionDate;
 	}
 

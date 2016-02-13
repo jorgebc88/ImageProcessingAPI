@@ -1,34 +1,22 @@
-package com.unt.ImageProcessingService.dao;
+package com.unt.ImageProcessingApplication.dao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.Date;
+import java.util.List;
 
-import com.unt.ImageProcessingService.entities.DetectedObject;
-import com.unt.ImageProcessingService.utils.Util;
+import com.unt.ImageProcessingApplication.entities.Camera;
+import com.unt.ImageProcessingApplication.utils.Util;
 
-public class DetectedObjectDAO {
+public class CameraDAO {
 
-	public static String saveDetectedObject(String type, Date date, long cameraId) throws Exception {
-
-		DetectedObject detectedObject = new DetectedObject("Down", type, date, cameraId);
+	public static List<Camera> getCameraList() throws Exception {
 
 		HttpURLConnection conn = prepareHttpURLConnection();
-
-		// Create the form content
-		OutputStream out = conn.getOutputStream();
-		Writer writer = new OutputStreamWriter(out, "UTF-8");
-		writer.write(Util.toJson(detectedObject));
-		writer.close();
-		out.close();
 
 		if (conn.getResponseCode() != 200) {
 			throw new IOException(conn.getResponseMessage());
@@ -44,18 +32,17 @@ public class DetectedObjectDAO {
 		rd.close();
 
 		conn.disconnect();
-		return sb.toString();
+		return Util.cameraListFromJson(sb.toString());
 	}
 
 	private static HttpURLConnection prepareHttpURLConnection()
 			throws MalformedURLException, IOException, ProtocolException {
 
-		String urlStr = "http://localhost:8080/FinalProject/detectedObject/DetectedObject";
+		String urlStr = "http://localhost:8080/FinalProject/camera/list";
 
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("POST");
-		conn.setDoOutput(true);
+		conn.setRequestMethod("GET");
 		conn.setDoInput(true);
 		conn.setUseCaches(false);
 		conn.setAllowUserInteraction(false);

@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 
 import org.apache.log4j.Logger;
 
-import com.unt.ImageProcessingService.utils.Util;
+import com.unt.ImageProcessingApplication.utils.Util;
 
 public class ImageProcessorDispatcher extends Thread {
 

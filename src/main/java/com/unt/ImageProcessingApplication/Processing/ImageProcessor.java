@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import org.opencv.video.BackgroundSubtractorKNN;
 import org.opencv.video.Video;
 import org.opencv.videoio.VideoCapture;
 
-import com.unt.ImageProcessingService.entities.Vehicle;
-import com.unt.ImageProcessingService.utils.Util;
+import com.unt.ImageProcessingApplication.entities.Vehicle;
+import com.unt.ImageProcessingApplication.utils.Util;
 
 public class ImageProcessor {
 

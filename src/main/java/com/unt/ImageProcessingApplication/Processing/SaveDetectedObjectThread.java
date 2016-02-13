@@ -1,10 +1,10 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.util.Date;
 
 import org.apache.log4j.Logger;
 
-import com.unt.ImageProcessingService.dao.DetectedObjectDAO;
+import com.unt.ImageProcessingApplication.dao.DetectedObjectDAO;
 
 public class SaveDetectedObjectThread extends Thread {
 	static final Logger LOGGER = Logger.getLogger(SaveDetectedObjectThread.class);

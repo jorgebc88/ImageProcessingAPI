@@ -1,11 +1,11 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.unt.ImageProcessingService.dao.CameraDAO;
-import com.unt.ImageProcessingService.entities.Camera;
+import com.unt.ImageProcessingApplication.dao.CameraDAO;
+import com.unt.ImageProcessingApplication.entities.Camera;
 
 public class ApplicationController {
 

@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.utils;
+package com.unt.ImageProcessingApplication.utils;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -10,7 +10,7 @@ import org.opencv.core.Mat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unt.ImageProcessingService.entities.Camera;
+import com.unt.ImageProcessingApplication.entities.Camera;
 
 public class Util {
 

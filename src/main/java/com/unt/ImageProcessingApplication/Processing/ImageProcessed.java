@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import java.awt.image.BufferedImage;
 

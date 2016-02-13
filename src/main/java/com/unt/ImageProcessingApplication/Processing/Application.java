@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingService.Processing;
+package com.unt.ImageProcessingApplication.Processing;
 
 import org.apache.log4j.BasicConfigurator;
 import org.opencv.core.Core;
