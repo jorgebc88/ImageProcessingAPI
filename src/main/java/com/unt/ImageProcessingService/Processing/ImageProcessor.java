@@ -1,7 +1,6 @@
-package com.proyectoFinal2.ProyectoFinal2;
+package com.unt.ImageProcessingService.Processing;
 
 import java.awt.Image;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -20,16 +19,16 @@ import org.opencv.video.BackgroundSubtractorKNN;
 import org.opencv.video.Video;
 import org.opencv.videoio.VideoCapture;
 
+import com.unt.ImageProcessingService.entities.Vehicle;
+import com.unt.ImageProcessingService.utils.Util;
 
-import dataBaseConnection.DetectedObjectController;
+public class ImageProcessor {
 
-public class CameraController {
-	
-	static final Logger LOGGER = Logger.getLogger(CameraController.class);
+	static final Logger LOGGER = Logger.getLogger(ImageProcessor.class);
 
 	private Mat prevFrame = null;
 
-	private int autos = 0, motos = 0, omnibus = 0;
+	private int cars = 0, bikes = 0, buses = 0;
 
 	private Set<Vehicle> vehicleSet = new HashSet<>();
 
@@ -38,12 +37,12 @@ public class CameraController {
 	public VideoCapture capture = new VideoCapture();
 
 	private long cameraId;
-	
+
 	private boolean isWideScreen;
 
 	BackgroundSubtractorKNN backgroundSubtractor = Video.createBackgroundSubtractorKNN();
 
-	public CameraController(VideoCapture capture, long cameraId, boolean isWideScreen) {
+	public ImageProcessor(VideoCapture capture, long cameraId, boolean isWideScreen) {
 		super();
 		this.capture = capture;
 		this.cameraId = cameraId;
@@ -56,7 +55,7 @@ public class CameraController {
 	 * @return the {@link Image} to show
 	 * @throws Exception
 	 */
-	public Mat grabFrame() throws Exception {
+	public Mat processFrame() throws Exception {
 
 		Mat frame = new Mat();
 
@@ -80,8 +79,6 @@ public class CameraController {
 					if (this.prevFrame == null) {
 						this.prevFrame = grayImage;
 					}
-					// get thresholding values from the UI
-					// remember: H ranges 0-180, S and V range 0-255
 
 					Mat fgmask = new Mat();
 					fgmask.create(frame.size(), frame.type());
@@ -138,10 +135,10 @@ public class CameraController {
 			for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
 				contour = contours.get(idx);
 				rect = Imgproc.boundingRect(contour);
-				if (DetectedObjectController.isAnObject(rect.area(), frame.size().area())) {
-					if (DetectedObjectController.isABike(rect.area(), frame.size().area())) {
+				if (Util.isAnObject(rect.area(), frame.size().area())) {
+					if (Util.isABike(rect.area(), frame.size().area())) {
 						type = "Bike";
-					} else if (DetectedObjectController.isACar(rect.area(), frame.size().area())) {
+					} else if (Util.isACar(rect.area(), frame.size().area())) {
 						type = "Car";
 					} else {
 						type = "Bus";
@@ -174,7 +171,7 @@ public class CameraController {
 		Date date = new Date();
 
 		if (vehicleSet.isEmpty()) {
-			if (this.calculateMassCenterRectangle(rect).y < (frameHeight * 0.5) ) {
+			if (this.calculateMassCenterRectangle(rect).y < (frameHeight * 0.5)) {
 				date.setTime(System.currentTimeMillis());
 				vehicleAux = new Vehicle(this.calculateMassCenterRectangle(rect), rect.area(), false,
 						this.isGoingDown(rect, frameWidth), date);
@@ -193,21 +190,15 @@ public class CameraController {
 					if (!vehicle.isCounted() && this.shouldBeCounted(rect)) {
 						vehicle.setCounted(true);
 						if (type.equals("Bike")) {
-							this.motos++;
-							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.motos
-									+ " " + vehicle + " TamaÃ±o video: " + (frameHeight * frameWidth));
+							this.bikes++;
 						} else if (type.equals("Car")) {
-							this.autos++; // modificar!!
-							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.autos
-									+ " " + vehicle + " TamaÃ±o video: " + (frameHeight * frameWidth));
+							this.cars++;
 						} else {
-							this.omnibus++; // modificar!!
-							LOGGER.info("Camara n°: " + this.cameraId + " tipo: " + type + ": " + this.omnibus
-									+ " " + vehicle + " TamaÃ±o video: " + (frameHeight * frameWidth));
-
+							this.buses++;
 						}
-						LOGGER.info("Camara n°: " + this.cameraId + " Total: " + (this.autos + this.motos));
-						LOGGER.info(DetectedObjectController.saveDetectedObject(type, vehicle.getDetectionDate(), cameraId));
+						SaveDetectedObjectThread saveDetectedObjectThread = new SaveDetectedObjectThread(type,
+								vehicle.getDetectionDate(), cameraId);
+						saveDetectedObjectThread.run();
 						this.vehicleSet.remove(vehicle);
 					}
 				}
@@ -224,12 +215,12 @@ public class CameraController {
 		}
 	}
 
-//	private boolean xPosition(Rect rect) {
-//		if(this.isWideScreen){
-//			return 
-//		}
-//		return true;
-//	}
+	// private boolean xPosition(Rect rect) {
+	// if(this.isWideScreen){
+	// return
+	// }
+	// return true;
+	// }
 
 	private boolean isGoingDown(Rect rect, int frameWidth) {
 		if (this.calculateMassCenterRectangle(rect).x < frameWidth) {
@@ -257,12 +248,20 @@ public class CameraController {
 		return false;
 	}
 
-	private boolean areTheSameSize(double oldVehicle, double newVehicle) {
-		if (newVehicle >= oldVehicle * 0.80 && newVehicle <= oldVehicle * 1.20) {
-			return true;
-		}
-		return false;
+	public Set<Vehicle> getVehicleSet() {
+		return vehicleSet;
+	}
 
+	public void setVehicleSet(Set<Vehicle> vehicleSet) {
+		this.vehicleSet = vehicleSet;
+	}
+
+	public long getCameraId() {
+		return cameraId;
+	}
+
+	public void setCameraId(long cameraId) {
+		this.cameraId = cameraId;
 	}
 
 }

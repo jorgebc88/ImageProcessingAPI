@@ -1,4 +1,4 @@
-package dataBaseConnection;
+package com.unt.ImageProcessingService.dao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,22 +12,21 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Date;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unt.ImageProcessingService.entities.DetectedObject;
+import com.unt.ImageProcessingService.utils.Util;
 
-public class DetectedObjectController {
+public class DetectedObjectDAO {
 
 	public static String saveDetectedObject(String type, Date date, long cameraId) throws Exception {
 
-		DetectedObject detectedObject = null;
-		detectedObject = new DetectedObject("South", type, date, cameraId);
+		DetectedObject detectedObject = new DetectedObject("Down", type, date, cameraId);
 
 		HttpURLConnection conn = prepareHttpURLConnection();
 
 		// Create the form content
 		OutputStream out = conn.getOutputStream();
 		Writer writer = new OutputStreamWriter(out, "UTF-8");
-		writer.write(toJson(detectedObject));
+		writer.write(Util.toJson(detectedObject));
 		writer.close();
 		out.close();
 
@@ -62,43 +61,6 @@ public class DetectedObjectController {
 		conn.setAllowUserInteraction(false);
 		conn.setRequestProperty("Content-Type", "application/json");
 		return conn;
-	}
-
-	public static String toJson(Object data) {
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			return objectMapper.writeValueAsString(data);
-		} catch (JsonProcessingException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
-	
-	public static boolean isAnObject(double objectSize, double frameSize) {
-		if (objectSize > (0.006 * frameSize)) {
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isABike(double objectSize, double frameSize) {
-		if (objectSize < (0.05 * frameSize)) {
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean isACar(double objectSize, double frameSize) {
-		if (objectSize < (0.18 * frameSize)) {
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean isABus(double objectSize, double frameSize) {
-		if (objectSize > (0.18 * frameSize)) {
-			return true;
-		}
-		return false;
 	}
 
 }
