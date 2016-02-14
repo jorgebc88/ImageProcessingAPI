@@ -25,11 +25,7 @@ public class SaveDetectedObjectThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			// LOGGER.info("thread: " +
-			// DetectedObjectController.saveDetectedObject(type, detectionDate,
-			// cameraId));
 			objectDetected = DetectedObjectDAO.saveDetectedObject(type, detectionDate, cameraId);
-			// LOGGER.info(objectDetected);
 		} catch (Exception e) {
 			LOGGER.error("There was a problem in the save of the Object");
 			this.destroy();

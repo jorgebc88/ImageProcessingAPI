@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
@@ -34,7 +33,6 @@ public class ImageProcessorManager {
 	// a timer for acquiring the video stream
 	private ScheduledExecutorService timerPurger;
 	// the OpenCV object that performs the video capture
-	FFmpegFrameGrabber grabber;
 
 	private int socket = 8090;
 

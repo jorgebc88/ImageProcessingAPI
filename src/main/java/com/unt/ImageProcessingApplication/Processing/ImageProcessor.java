@@ -198,7 +198,7 @@ public class ImageProcessor {
 						}
 						SaveDetectedObjectThread saveDetectedObjectThread = new SaveDetectedObjectThread(type,
 								vehicle.getDetectionDate(), cameraId);
-						saveDetectedObjectThread.run();
+						saveDetectedObjectThread.start();
 						this.vehicleSet.remove(vehicle);
 					}
 				}
