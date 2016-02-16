@@ -23,8 +23,12 @@ public class ApplicationController {
 		}
 
 		for (Camera camera : cameras) {
-			LOGGER.info("This camera is going to be processed: " + camera);
-			imageProcessorManager.startCameraProcessing(camera);
+			if(camera.isActive()) {
+				LOGGER.info("This camera is going to be processed: " + camera);
+				imageProcessorManager.startCameraProcessing(camera);
+			}else{
+				LOGGER.info("This camera is not active: " + camera);
+			}
 		}
 	}
 }
