@@ -21,19 +21,20 @@ public class ImageProcessorDispatcher extends Thread {
 	private ImageProcessor imageProcessor;
 	private JFrame window;
 	private BufferedImage image;
-	private Socket socket;
 	private ServerSocket ss;
 	private ThreadServerConnectionHandler threadServerConnectionHandler;
+	private ImageProcessed imageProcessed = new ImageProcessed();
 
-	public ImageProcessorDispatcher(JLabel jLabel, ImageProcessor imageProcessor, JFrame window, int port)
+	public ImageProcessorDispatcher(JLabel jLabel, ImageProcessor imageProcessor, JFrame window, int port, ImageProcessed imageProcessed)
 			throws IOException {
 		this.jLabel = jLabel;
 		this.imageProcessor = imageProcessor;
 		this.window = window;
-		ss = new ServerSocket(port);
+		this.ss = new ServerSocket(port);
+		this.imageProcessed = imageProcessed;
 		try {
 			threadServerConnectionHandler = new ThreadServerConnectionHandler(ss, this.imageProcessor.getCameraId(),
-					this);
+					 imageProcessed);
 			threadServerConnectionHandler.start();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -43,9 +44,9 @@ public class ImageProcessorDispatcher extends Thread {
 	@Override
 	public void run() {
 		try {
-			// LOGGER.info(imageProcessor.getCameraId() + "-" );
+//			LOGGER.info(System.currentTimeMillis());
 			image = Util.createBufferedImage(imageProcessor.processFrame());
-
+			imageProcessed.put(image);
 			jLabel.setIcon(new ImageIcon(image));
 			jLabel.updateUI();
 		} catch (IOException e) {
@@ -54,7 +55,6 @@ public class ImageProcessorDispatcher extends Thread {
 			e.printStackTrace();
 			window.dispose();
 			try {
-				socket.close();
 				ss.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();

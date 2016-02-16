@@ -1,7 +1,10 @@
 package com.unt.ImageProcessingApplication.Processing;
 
+import java.awt.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +41,8 @@ public class ImageProcessorManager {
 
 	private Map<Long, ImageProcessor> camerasMap = new HashMap<>();
 
+	private Set<JFrame> windowsSet = new HashSet<>();
+
 	/**
 	 * 
 	 * @throws Exception
@@ -47,6 +52,7 @@ public class ImageProcessorManager {
 		String ip = camera.getIp();
 		if (!camerasMap.containsKey(cameraId)) {
 			VideoCapture capture = new VideoCapture();
+			LOGGER.info(ip);
 			capture.open(ip);
 			// is the video stream available?
 			if (capture.isOpened()) {
@@ -54,6 +60,8 @@ public class ImageProcessorManager {
 				// grab a frame every 33 ms (30 frames/sec)
 				Mat mat = new Mat();
 				capture.read(mat);
+
+				ImageProcessed imageProcessed = new ImageProcessed();
 
 				JFrame window = createFrame(camera, mat);
 
@@ -63,7 +71,7 @@ public class ImageProcessorManager {
 				JLabel jLabel = new JLabel();
 				window.getContentPane().add(jLabel);
 				ImageProcessorDispatcher imageProcessorDispatcher = new ImageProcessorDispatcher(jLabel, imageProcessor,
-						window, this.socket);
+						window, this.socket, imageProcessed);
 				this.socket++;
 
 				this.timer = Executors.newSingleThreadScheduledExecutor();
@@ -85,11 +93,14 @@ public class ImageProcessorManager {
 
 	private JFrame createFrame(Camera camera, Mat mat) {
 		JFrame ventana = new JFrame(camera.getLocation());
+		ventana.setLocation(0, 0);
 		ventana.setSize(mat.width(), mat.height());
 		ventana.setLocationRelativeTo(null);
+		ventana.setLocation((windowsSet.size()) * mat.width(), 0);
 		ventana.setVisible(true);
 		ventana.setResizable(false);
 		ventana.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		windowsSet.add(ventana);
 		return ventana;
 	}
 

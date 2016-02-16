@@ -7,19 +7,19 @@ import org.apache.log4j.Logger;
 
 import com.unt.ImageProcessingApplication.streaming.VideoStreaming;
 
-public class ThreadServerConnection extends Thread {
+public class ThreadServerConnection implements Runnable{
 
 	private static Logger LOGGER = Logger.getLogger(ThreadServerConnection.class);
 
 	private Socket socket;
 	private String boundary;
-	private ImageProcessorDispatcher imageProcessorDispatcher;
+	private ImageProcessed imageProcessed;
 
-	public ThreadServerConnection(Socket socket, ImageProcessorDispatcher imageProcessorDispatcher) {
+	public ThreadServerConnection(Socket socket, ImageProcessed imageProcessed) {
 		this.socket = socket;
 		this.boundary = "Thats it folks!";
-		;
-		this.imageProcessorDispatcher = imageProcessorDispatcher;
+		this.imageProcessed = imageProcessed;
+		(new Thread(this)).start();
 	}
 
 	@Override
@@ -27,7 +27,9 @@ public class ThreadServerConnection extends Thread {
 		try {
 			VideoStreaming.writeHeader(socket.getOutputStream(), boundary);
 			while (true) {
-				VideoStreaming.writeJpg(socket.getOutputStream(), imageProcessorDispatcher.getImage(), boundary);
+				if (imageProcessed.getSocketMap().get(socket)) {
+					VideoStreaming.writeJpg(socket.getOutputStream(), imageProcessed.get(socket), boundary);
+				}
 			}
 		} catch (SocketException e) {
 			LOGGER.error("The connection was terminated!");
@@ -35,5 +37,4 @@ public class ThreadServerConnection extends Thread {
 			e.printStackTrace();
 		}
 	}
-
 }

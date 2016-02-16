@@ -18,6 +18,8 @@ public class Camera implements Serializable {
 
 	private String ip;
 
+	private boolean active;
+
 	public Camera() {
 	}
 
@@ -72,6 +74,14 @@ public class Camera implements Serializable {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	@Override

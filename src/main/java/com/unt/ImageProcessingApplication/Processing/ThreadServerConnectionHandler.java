@@ -11,14 +11,14 @@ class ThreadServerConnectionHandler extends Thread {
 
 	private String boundary;
 	private ServerSocket ss;
-	private ImageProcessorDispatcher imageProcessorDispatcher;
 	private Long cameraId;
+	private ImageProcessed imageProcessed;
 
 	public ThreadServerConnectionHandler(ServerSocket ss, long cameraId,
-			ImageProcessorDispatcher imageProcessorDispatcher) {
+										  ImageProcessed imageProcessed) {
 		this.ss = ss;
 		this.cameraId = cameraId;
-		this.imageProcessorDispatcher = imageProcessorDispatcher;
+		this.imageProcessed = imageProcessed;
 	}
 
 	@Override
@@ -27,13 +27,10 @@ class ThreadServerConnectionHandler extends Thread {
 			while (true) {
 				Socket socket = ss.accept();
 
-				LOGGER.info(this.cameraId + "-" + boundary);
-
-				ThreadServerConnection threadServerConnection = new ThreadServerConnection(socket,
-						imageProcessorDispatcher);
-				threadServerConnection.start();
+				imageProcessed.addSocket(socket);
+				ThreadServerConnection threadServerConnection = new ThreadServerConnection(socket, imageProcessed);
+//				threadServerConnection.start();
 				boundary = "Thats all folks!";
-				LOGGER.info(boundary);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
