@@ -1,6 +1,11 @@
 package com.unt.ImageProcessingApplication.Processing;
 
-import java.awt.*;
+import com.unt.ImageProcessingApplication.entities.Camera;
+import org.apache.log4j.Logger;
+import org.opencv.core.Mat;
+import org.opencv.videoio.VideoCapture;
+
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,16 +13,6 @@ import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.WindowConstants;
-
-import org.apache.log4j.Logger;
-import org.opencv.core.Mat;
-import org.opencv.videoio.VideoCapture;
-
-import com.unt.ImageProcessingApplication.entities.Camera;
 
 /**
  * The controller associated with the only view of our application. The
