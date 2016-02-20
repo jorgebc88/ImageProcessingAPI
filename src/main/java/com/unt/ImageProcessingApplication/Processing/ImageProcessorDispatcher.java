@@ -1,17 +1,15 @@
-package com.unt.ImageProcessingApplication.Processing;
+package com.unt.ImageProcessingApplication.processing;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import com.unt.ImageProcessingApplication.utils.imageUtils.ImageUtils;
 import org.apache.log4j.Logger;
-
-import com.unt.ImageProcessingApplication.utils.Util;
 
 public class ImageProcessorDispatcher extends Thread {
 
@@ -45,7 +43,7 @@ public class ImageProcessorDispatcher extends Thread {
 	public void run() {
 		try {
 //			LOGGER.info(System.currentTimeMillis());
-			image = Util.createBufferedImage(imageProcessor.processFrame());
+			image = ImageUtils.createBufferedImage(imageProcessor.processFrame());
 			imageProcessed.put(image);
 			jLabel.setIcon(new ImageIcon(image));
 			jLabel.updateUI();
