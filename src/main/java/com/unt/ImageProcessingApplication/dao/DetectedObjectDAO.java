@@ -50,7 +50,7 @@ public class DetectedObjectDAO {
 	private static HttpURLConnection prepareHttpURLConnection()
 			throws MalformedURLException, IOException, ProtocolException {
 
-		String urlStr = "http://localhost:8080/FinalProject/detectedObject/DetectedObject";
+		String urlStr = "http://localhost:8080/REST-API/detectedObject/DetectedObject";
 
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();

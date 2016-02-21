@@ -3,7 +3,7 @@ package com.unt.ImageProcessingApplication.Processing;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
