@@ -17,9 +17,9 @@ import com.unt.ImageProcessingApplication.utils.Util;
 
 public class DetectedObjectDAO {
 
-	public static String saveDetectedObject(String type, Date date, long cameraId) throws Exception {
+	public static String saveDetectedObject(String detectedObjectDirection, String type, Date date, long cameraId) throws Exception {
 
-		DetectedObject detectedObject = new DetectedObject("Down", type, date, cameraId);
+		DetectedObject detectedObject = new DetectedObject(detectedObjectDirection, type, date, cameraId);
 
 		HttpURLConnection conn = prepareHttpURLConnection();
 

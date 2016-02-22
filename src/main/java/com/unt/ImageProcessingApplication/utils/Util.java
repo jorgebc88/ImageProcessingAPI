@@ -14,6 +14,11 @@ import com.unt.ImageProcessingApplication.entities.Camera;
 
 public class Util {
 
+	/**
+	 * This method convert an Object to json
+	 * @param data Object to be transformed in json
+	 * @return Object transformed to json
+	 */
 	public static String toJson(Object data) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
@@ -23,6 +28,11 @@ public class Util {
 		}
 	}
 
+	/**
+	 * This method transform a Camera object in json to Camera
+	 * @param data json of the camera
+	 * @return A list of cameras
+	 */
 	public static ArrayList<Camera> cameraListFromJson(String data) {
 		ArrayList<Camera> cameras = new ArrayList<>();
 		try {
@@ -38,6 +48,12 @@ public class Util {
 		return cameras;
 	}
 
+	/**
+	 * This method verify if the detected object is an Object according to the object size and the frame size
+	 * @param objectSize Size of the detected object
+	 * @param frameSize Size of the frame
+	 * @return True if it is a Object, False if not
+	 */
 	public static boolean isAnObject(double objectSize, double frameSize) {
 		if (objectSize > (0.006 * frameSize)) {
 			return true;
@@ -45,6 +61,12 @@ public class Util {
 		return false;
 	}
 
+	/**
+	 * This method verify if the detected object is a Bike according to the object size and the frame size
+	 * @param objectSize Size of the detected object
+	 * @param frameSize Size of the frame
+	 * @return True if it is a Bike, False if not
+	 */
 	public static boolean isABike(double objectSize, double frameSize) {
 		if (objectSize < (0.05 * frameSize)) {
 			return true;
@@ -52,6 +74,12 @@ public class Util {
 		return false;
 	}
 
+	/**
+	 * This method verify if the detected object is a Car according to the object size and the frame size
+	 * @param objectSize Size of the detected object
+	 * @param frameSize Size of the frame
+	 * @return True if it is a Car, False if not
+	 */
 	public static boolean isACar(double objectSize, double frameSize) {
 		if (objectSize < (0.18 * frameSize)) {
 			return true;
@@ -59,6 +87,12 @@ public class Util {
 		return false;
 	}
 
+	/**
+	 * This method verify if the detected object is a Bus according to the object size and the frame size
+	 * @param objectSize Size of the detected object
+	 * @param frameSize Size of the frame
+	 * @return True if it is a Bus, False if not
+	 */
 	public static boolean isABus(double objectSize, double frameSize) {
 		if (objectSize > (0.18 * frameSize)) {
 			return true;
@@ -66,6 +100,11 @@ public class Util {
 		return false;
 	}
 
+	/**
+	 * This method convert a Mat Frame into a BufferedImage
+	 * @param mat Frame to convert
+	 * @return The frame converted to BuferredImage
+	 */
 	public static BufferedImage createBufferedImage(Mat mat) {
 		int type = 0;
 		if (mat.channels() == 1) {
@@ -83,6 +122,20 @@ public class Util {
 		mat.get(0, 0, data);
 
 		return image;
+	}
+
+	/**
+	 * This method calculate the direction of the detected objects
+	 * @param cameraPointingAt The direction pointed by the camera
+	 */
+	public static String calculateDetectedObjectDirection(String cameraPointingAt) {
+		switch (cameraPointingAt.trim().toLowerCase()){
+			case "north" : return "South";
+			case "west" : return "East";
+			case "south" : return "North";
+			case "east" : return "South";
+			default: return "South";
+		}
 	}
 
 }

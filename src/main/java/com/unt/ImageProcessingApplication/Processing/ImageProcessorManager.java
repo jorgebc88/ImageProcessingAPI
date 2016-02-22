@@ -60,7 +60,7 @@ public class ImageProcessorManager {
 
 				JFrame window = createFrame(camera, mat);
 
-				ImageProcessor imageProcessor = new ImageProcessor(capture, cameraId, this.isWideScreen(mat));
+				ImageProcessor imageProcessor = new ImageProcessor(capture, cameraId, this.isWideScreen(mat), camera.getPointingAt());
 
 				camerasMap.put(cameraId, imageProcessor);
 				JLabel jLabel = new JLabel();
