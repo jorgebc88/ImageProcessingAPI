@@ -32,7 +32,7 @@ public class ImageProcessorManager {
 	private ScheduledExecutorService timerPurger;
 	// the OpenCV object that performs the video capture
 
-	private int socket = 8090;
+	private long defaultPort = 8090;
 
 	private Map<Long, ImageProcessor> camerasMap = new HashMap<>();
 
@@ -62,12 +62,13 @@ public class ImageProcessorManager {
 
 				ImageProcessor imageProcessor = new ImageProcessor(capture, cameraId, this.isWideScreen(mat), camera.getPointingAt());
 
+				long socket = this.defaultPort + camera.getId();
+
 				camerasMap.put(cameraId, imageProcessor);
 				JLabel jLabel = new JLabel();
 				window.getContentPane().add(jLabel);
 				ImageProcessorDispatcher imageProcessorDispatcher = new ImageProcessorDispatcher(jLabel, imageProcessor,
-						window, this.socket, imageProcessed);
-				this.socket++;
+						window, (int) socket, imageProcessed);
 
 				this.timer = Executors.newSingleThreadScheduledExecutor();
 				this.timer.scheduleAtFixedRate(imageProcessorDispatcher, 0, 33, TimeUnit.MILLISECONDS);

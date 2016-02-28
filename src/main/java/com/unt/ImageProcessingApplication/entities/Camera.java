@@ -20,7 +20,7 @@ public class Camera implements Serializable {
 
 	private boolean active;
 
-	private String pointingAt;
+	private String pointing_at;
 
 	public Camera() {
 	}
@@ -30,13 +30,13 @@ public class Camera implements Serializable {
 		this.location = location;
 	}
 
-	public Camera( String location, String latitude, String longitude, boolean active, String pointingAt) {
+	public Camera( String location, String latitude, String longitude, boolean active, String pointing_at) {
 		super();
 		this.location = location;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.active = active;
-		this.pointingAt = pointingAt;
+		this.pointing_at = pointing_at;
 	}
 
 	public void setId(Long id) {
@@ -88,11 +88,11 @@ public class Camera implements Serializable {
 	}
 
 	public String getPointingAt() {
-		return pointingAt;
+		return pointing_at;
 	}
 
-	public void setPointingAt(String pointingAt) {
-		this.pointingAt = pointingAt;
+	public void setPointingAt(String pointing_at) {
+		this.pointing_at = pointing_at;
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class Camera implements Serializable {
 				", longitude='" + longitude + '\'' +
 				", ip='" + ip + '\'' +
 				", active=" + active +
-				", pointing_at='" + pointingAt + '\'' +
+				", pointing_at='" + pointing_at + '\'' +
 				'}';
 	}
 }

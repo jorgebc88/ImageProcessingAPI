@@ -129,6 +129,9 @@ public class Util {
 	 * @param cameraPointingAt The direction pointed by the camera
 	 */
 	public static String calculateDetectedObjectDirection(String cameraPointingAt) {
+		if(cameraPointingAt == null){
+			throw new RuntimeException("The camera must have the field pointing_at.");
+		}
 		switch (cameraPointingAt.trim().toLowerCase()){
 			case "north" : return "South";
 			case "west" : return "East";
