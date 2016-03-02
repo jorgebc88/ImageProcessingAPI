@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingApplication.Processing;
+package com.unt.ImageProcessingApplication.processing;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;

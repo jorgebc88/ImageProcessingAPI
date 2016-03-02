@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingApplication.Processing;
+package com.unt.ImageProcessingApplication.processing;
 
 import java.util.List;
 

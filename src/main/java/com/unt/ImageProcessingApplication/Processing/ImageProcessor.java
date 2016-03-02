@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingApplication.Processing;
+package com.unt.ImageProcessingApplication.processing;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.unt.ImageProcessingApplication.utils.objectUtils.ObjectUtils;
 import org.apache.log4j.Logger;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -20,7 +21,6 @@ import org.opencv.video.Video;
 import org.opencv.videoio.VideoCapture;
 
 import com.unt.ImageProcessingApplication.entities.Vehicle;
-import com.unt.ImageProcessingApplication.utils.Util;
 
 public class ImageProcessor {
 
@@ -49,7 +49,7 @@ public class ImageProcessor {
 		this.capture = capture;
 		this.cameraId = cameraId;
 		this.isWideScreen = isWideScreen;
-		this.detectedObjectDirection = Util.calculateDetectedObjectDirection(cameraPointingAt);
+		this.detectedObjectDirection = ObjectUtils.calculateDetectedObjectDirection(cameraPointingAt);
 	}
 
 	/**
@@ -138,10 +138,10 @@ public class ImageProcessor {
 			for (int idx = 0; idx >= 0; idx = (int) hierarchy.get(0, idx)[0]) {
 				contour = contours.get(idx);
 				rect = Imgproc.boundingRect(contour);
-				if (Util.isAnObject(rect.area(), frame.size().area())) {
-					if (Util.isABike(rect.area(), frame.size().area())) {
+				if (ObjectUtils.isAnObject(rect.area(), frame.size().area())) {
+					if (ObjectUtils.isABike(rect.area(), frame.size().area())) {
 						type = "Bike";
-					} else if (Util.isACar(rect.area(), frame.size().area())) {
+					} else if (ObjectUtils.isACar(rect.area(), frame.size().area())) {
 						type = "Car";
 					} else {
 						type = "Bus";

@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.List;
 
 import com.unt.ImageProcessingApplication.entities.Camera;
-import com.unt.ImageProcessingApplication.utils.Util;
+import com.unt.ImageProcessingApplication.utils.cameraUtils.CameraUtils;
 
 public class CameraDAO {
 
@@ -32,7 +32,7 @@ public class CameraDAO {
 		rd.close();
 
 		conn.disconnect();
-		return Util.cameraListFromJson(sb.toString());
+		return CameraUtils.cameraListFromJson(sb.toString());
 	}
 
 	private static HttpURLConnection prepareHttpURLConnection()

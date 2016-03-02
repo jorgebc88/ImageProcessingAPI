@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingApplication.Processing;
+package com.unt.ImageProcessingApplication.processing;
 
 import com.unt.ImageProcessingApplication.entities.Camera;
 import org.apache.log4j.Logger;

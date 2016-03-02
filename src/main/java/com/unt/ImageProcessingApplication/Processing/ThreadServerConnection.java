@@ -1,4 +1,4 @@
-package com.unt.ImageProcessingApplication.Processing;
+package com.unt.ImageProcessingApplication.processing;
 
 import java.net.Socket;
 import java.net.SocketException;

@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.Date;
 
 import com.unt.ImageProcessingApplication.entities.DetectedObject;
-import com.unt.ImageProcessingApplication.utils.Util;
+import com.unt.ImageProcessingApplication.utils.objectUtils.ObjectUtils;
 
 public class DetectedObjectDAO {
 
@@ -26,7 +26,7 @@ public class DetectedObjectDAO {
 		// Create the form content
 		OutputStream out = conn.getOutputStream();
 		Writer writer = new OutputStreamWriter(out, "UTF-8");
-		writer.write(Util.toJson(detectedObject));
+		writer.write(ObjectUtils.toJson(detectedObject));
 		writer.close();
 		out.close();
 
