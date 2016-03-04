@@ -40,13 +40,16 @@ public class ImageProcessor {
 
 	private boolean isWideScreen;
 
+	private String detectedObjectDirection;
+
 	BackgroundSubtractorKNN backgroundSubtractor = Video.createBackgroundSubtractorKNN();
 
-	public ImageProcessor(VideoCapture capture, long cameraId, boolean isWideScreen) {
+	public ImageProcessor(VideoCapture capture, long cameraId, boolean isWideScreen, String cameraPointingAt) {
 		super();
 		this.capture = capture;
 		this.cameraId = cameraId;
 		this.isWideScreen = isWideScreen;
+		this.detectedObjectDirection = ObjectUtils.calculateDetectedObjectDirection(cameraPointingAt);
 	}
 
 	/**
@@ -197,7 +200,7 @@ public class ImageProcessor {
 							this.buses++;
 						}
 						SaveDetectedObjectThread saveDetectedObjectThread = new SaveDetectedObjectThread(type,
-								vehicle.getDetectionDate(), cameraId);
+								vehicle.getDetectionDate(),this.cameraId, this.detectedObjectDirection);
 						saveDetectedObjectThread.start();
 						this.vehicleSet.remove(vehicle);
 					}

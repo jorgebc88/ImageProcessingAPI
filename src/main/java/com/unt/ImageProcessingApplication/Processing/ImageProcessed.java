@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by marco on 2/17/2016.
  */
 public class ImageProcessed {
 	private BufferedImage bufferedImage;
@@ -19,7 +18,6 @@ public class ImageProcessed {
 	}
 
 	public BufferedImage get(Socket socket) {
-
 		socketMap.replace(socket, false);
 		return bufferedImage;
 
