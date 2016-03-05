@@ -50,10 +50,10 @@ public class ImageProcessorManager {
 			LOGGER.info(ip);
 			capture.open(ip);
 			// is the video stream available?
+			Mat mat = new Mat();
 			if (capture.isOpened()) {
 
 				// grab a frame every 33 ms (30 frames/sec)
-				Mat mat = new Mat();
 				capture.read(mat);
 
 				ImageProcessed imageProcessed = new ImageProcessed();
@@ -77,7 +77,6 @@ public class ImageProcessorManager {
 
 				this.timerPurger = Executors.newSingleThreadScheduledExecutor();
 				this.timerPurger.scheduleAtFixedRate(purger, 5, 5, TimeUnit.MINUTES);
-
 			} else {
 				// log the error
 				LOGGER.error("Failed to open the camera connection...");
