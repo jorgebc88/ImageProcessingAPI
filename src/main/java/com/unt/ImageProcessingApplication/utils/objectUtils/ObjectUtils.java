@@ -43,22 +43,4 @@ public class ObjectUtils {
             throw new RuntimeException(ex);
         }
     }
-
-    /**
-     * This method calculate the direction of the detected objects
-     * @param cameraPointingAt The direction pointed by the camera
-     */
-    public static String calculateDetectedObjectDirection(String cameraPointingAt) {
-        if(cameraPointingAt == null){
-            throw new RuntimeException("The camera must have the field pointing_at.");
-        }
-        switch (cameraPointingAt.trim().toLowerCase()){
-            case "north" : return "South";
-            case "west" : return "East";
-            case "south" : return "North";
-            case "east" : return "South";
-            default: return "South";
-        }
-    }
-
 }

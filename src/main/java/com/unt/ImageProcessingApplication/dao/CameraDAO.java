@@ -38,7 +38,7 @@ public class CameraDAO {
 	private static HttpURLConnection prepareHttpURLConnection()
 			throws MalformedURLException, IOException, ProtocolException {
 
-		String urlStr = "http://localhost:8080/REST-API/camera/list";
+		String urlStr = "http://localhost:8080/FinalProject/camera/list";
 
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
