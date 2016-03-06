@@ -26,6 +26,7 @@ public class ImageProcessor {
 
 	static final Logger LOGGER = Logger.getLogger(ImageProcessor.class);
 
+
 	private Mat prevFrame = null;
 
 	private int cars = 0, bikes = 0, buses = 0;
@@ -40,13 +41,16 @@ public class ImageProcessor {
 
 	private boolean isWideScreen;
 
+	private final String detectedObjectDirection;
+
 	BackgroundSubtractorKNN backgroundSubtractor = Video.createBackgroundSubtractorKNN();
 
-	public ImageProcessor(VideoCapture capture, long cameraId, boolean isWideScreen) {
+	public ImageProcessor(VideoCapture capture, long cameraId, boolean isWideScreen, String cameraPointingAt) {
 		super();
 		this.capture = capture;
 		this.cameraId = cameraId;
 		this.isWideScreen = isWideScreen;
+		this.detectedObjectDirection = ObjectUtils.calculateDetectedObjectDirection(cameraPointingAt);
 	}
 
 	/**
@@ -61,46 +65,44 @@ public class ImageProcessor {
 
 		// check if the capture is open
 		if (this.capture.isOpened()) {
-			try {
-				// read the current frame
-				this.capture.read(frame);
-				this.yLinePosition = frame.height() * 0.6;
-				// if the frame is not empty, process it
-				if (!frame.empty()) {
-					// init
-					Mat blurredImage = new Mat();
-					Mat grayImage = new Mat();
-
-					// remove some noise
-					Imgproc.blur(frame, blurredImage, new Size(7, 7));
-
-					// convert the frame to GRAY
-					Imgproc.cvtColor(blurredImage, grayImage, Imgproc.COLOR_BGR2GRAY);
-					if (this.prevFrame == null) {
-						this.prevFrame = grayImage;
-					}
-
-					Mat fgmask = new Mat();
-					fgmask.create(frame.size(), frame.type());
-
-					backgroundSubtractor.apply(frame, fgmask);
-
-					Imgproc.GaussianBlur(fgmask, fgmask, new Size(11, 11), 3.5, 3.5);
-
-					Imgproc.threshold(fgmask, fgmask, 128, 255, Imgproc.THRESH_BINARY);
-
-					backgroundSubtractor.getBackgroundImage(grayImage);
-					// find the vehicles contours and show them
-					this.prevFrame = grayImage;
-					// find the vehicles contours and show them
-					frame = this.findAndDetectVehicles(fgmask, frame);
-					return frame;
-				}
-			} catch (Exception e) {
-				// log the (full) error
-				LOGGER.error("Error trying to process the video.");
-				e.printStackTrace();
+			// read the current frame
+			if(!this.capture.read(frame)){
+				throw new RuntimeException("End of video.");
 			}
+			this.yLinePosition = frame.height() * 0.6;
+			// if the frame is not empty, process it
+			if (!frame.empty()) {
+				// init
+				Mat blurredImage = new Mat();
+				Mat grayImage = new Mat();
+
+				// remove some noise
+				Imgproc.blur(frame, blurredImage, new Size(7, 7));
+
+				// convert the frame to GRAY
+				Imgproc.cvtColor(blurredImage, grayImage, Imgproc.COLOR_BGR2GRAY);
+				if (this.prevFrame == null) {
+					this.prevFrame = grayImage;
+				}
+
+				Mat fgmask = new Mat();
+				fgmask.create(frame.size(), frame.type());
+
+				backgroundSubtractor.apply(frame, fgmask);
+
+				Imgproc.GaussianBlur(fgmask, fgmask, new Size(11, 11), 3.5, 3.5);
+
+				Imgproc.threshold(fgmask, fgmask, 128, 255, Imgproc.THRESH_BINARY);
+
+				backgroundSubtractor.getBackgroundImage(grayImage);
+				// find the vehicles contours and show them
+				this.prevFrame = grayImage;
+				// find the vehicles contours and show them
+				frame = this.findAndDetectVehicles(fgmask, frame);
+				return frame;
+			}
+		} else {
+			LOGGER.info("Capture closed! ");
 		}
 		return frame;
 

@@ -10,6 +10,11 @@ import java.awt.image.WritableRaster;
  * Created by marco on 2/18/2016.
  */
 public class ImageUtils {
+    /**
+     * This method convert a Mat Frame into a BufferedImage
+     * @param mat Frame to convert
+     * @return The frame converted to BuferredImage
+     */
     public static BufferedImage createBufferedImage(Mat mat) {
         int type = 0;
         if (mat.channels() == 1) {

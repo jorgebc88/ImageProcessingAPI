@@ -11,6 +11,11 @@ import java.util.ArrayList;
  * Created by marco on 2/18/2016.
  */
 public class CameraUtils {
+    /**
+     * This method transform a Camera object in json to Camera
+     * @param data json of the camera
+     * @return A list of cameras
+     */
     public static ArrayList<Camera> cameraListFromJson(String data) {
         ArrayList<Camera> cameras = new ArrayList<>();
         try {

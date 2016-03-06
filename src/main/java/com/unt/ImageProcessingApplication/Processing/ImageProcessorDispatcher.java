@@ -42,21 +42,20 @@ public class ImageProcessorDispatcher extends Thread {
 	@Override
 	public void run() {
 		try {
-//			LOGGER.info(System.currentTimeMillis());
 			image = ImageUtils.createBufferedImage(imageProcessor.processFrame());
 			imageProcessed.put(image);
 			jLabel.setIcon(new ImageIcon(image));
 			jLabel.updateUI();
 		} catch (IOException e) {
+			LOGGER.error(e.getMessage());
 			e.printStackTrace();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 			window.dispose();
 			try {
 				ss.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
-
 			}
 			this.destroy();
 		}
