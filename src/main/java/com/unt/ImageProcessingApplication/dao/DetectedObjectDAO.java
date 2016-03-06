@@ -17,9 +17,9 @@ import com.unt.ImageProcessingApplication.utils.objectUtils.ObjectUtils;
 
 public class DetectedObjectDAO {
 
-	public static String saveDetectedObject(String detectedObjectDirection, String type, Date date, long cameraId) throws Exception {
+	public static String saveDetectedObject(String type, Date date, long cameraId) throws Exception {
 
-		DetectedObject detectedObject = new DetectedObject(detectedObjectDirection, type, date, cameraId);
+		DetectedObject detectedObject = new DetectedObject("Down", type, date, cameraId);
 
 		HttpURLConnection conn = prepareHttpURLConnection();
 
@@ -50,7 +50,7 @@ public class DetectedObjectDAO {
 	private static HttpURLConnection prepareHttpURLConnection()
 			throws MalformedURLException, IOException, ProtocolException {
 
-		String urlStr = "http://localhost:8080/REST-API/detectedObject/DetectedObject";
+		String urlStr = "http://localhost:8080/FinalProject/detectedObject/DetectedObject";
 
 		URL url = new URL(urlStr);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();

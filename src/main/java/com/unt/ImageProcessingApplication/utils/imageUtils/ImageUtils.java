@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 
+/**
+ * Created by marco on 2/18/2016.
+ */
 public class ImageUtils {
     /**
      * This method convert a Mat Frame into a BufferedImage

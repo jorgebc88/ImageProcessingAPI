@@ -26,6 +26,7 @@ public class ImageProcessor {
 
 	static final Logger LOGGER = Logger.getLogger(ImageProcessor.class);
 
+
 	private Mat prevFrame = null;
 
 	private int cars = 0, bikes = 0, buses = 0;
@@ -40,7 +41,7 @@ public class ImageProcessor {
 
 	private boolean isWideScreen;
 
-	private String detectedObjectDirection;
+	private final String detectedObjectDirection;
 
 	BackgroundSubtractorKNN backgroundSubtractor = Video.createBackgroundSubtractorKNN();
 
@@ -198,7 +199,7 @@ public class ImageProcessor {
 							this.buses++;
 						}
 						SaveDetectedObjectThread saveDetectedObjectThread = new SaveDetectedObjectThread(type,
-								vehicle.getDetectionDate(),this.cameraId, this.detectedObjectDirection);
+								vehicle.getDetectionDate(), cameraId);
 						saveDetectedObjectThread.start();
 						this.vehicleSet.remove(vehicle);
 					}

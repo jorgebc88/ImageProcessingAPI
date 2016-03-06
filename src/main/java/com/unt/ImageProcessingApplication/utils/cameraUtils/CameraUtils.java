@@ -7,6 +7,9 @@ import com.unt.ImageProcessingApplication.entities.Camera;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Created by marco on 2/18/2016.
+ */
 public class CameraUtils {
     /**
      * This method transform a Camera object in json to Camera

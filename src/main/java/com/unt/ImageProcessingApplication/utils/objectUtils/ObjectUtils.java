@@ -3,6 +3,9 @@ package com.unt.ImageProcessingApplication.utils.objectUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Created by marco on 2/18/2016.
+ */
 public class ObjectUtils {
     /**
      * This method verify if the detected object is an Object according to the object size and the frame size

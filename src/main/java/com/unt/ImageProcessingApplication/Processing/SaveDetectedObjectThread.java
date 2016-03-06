@@ -12,22 +12,20 @@ public class SaveDetectedObjectThread extends Thread {
 	private String type;
 	private Date detectionDate;
 	private long cameraId;
-	private String detectedObjectDirection;
 
 	private String objectDetected;
 
-	public SaveDetectedObjectThread(String type, Date detectionDate, long cameraId, String detectedObjectDirection) {
+	public SaveDetectedObjectThread(String type, Date detectionDate, long cameraId) {
 		super();
 		this.type = type;
 		this.detectionDate = detectionDate;
 		this.cameraId = cameraId;
-		this.detectedObjectDirection = detectedObjectDirection;
 	}
 
 	@Override
 	public void run() {
 		try {
-			objectDetected = DetectedObjectDAO.saveDetectedObject(detectedObjectDirection, type, detectionDate, cameraId);
+			objectDetected = DetectedObjectDAO.saveDetectedObject(type, detectionDate, cameraId);
 		} catch (Exception e) {
 			LOGGER.error("There was a problem in the save of the Object");
 			this.destroy();
